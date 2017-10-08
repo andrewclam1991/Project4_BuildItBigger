@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        applicationId "com.udacity.gradle.builditbigger"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors{
+        free{
+            applicationId "com.udacity.gradle.builditbigger.free"
+        }
+
+        paid{
+            applicationId "com.udacity.gradle.builditbigger.paid"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.google.code.findbugs:jsr305:2.0.1'
+
+    // TODO [App Dependencies] - Android Test Espresso dependencies, idling resource in main
+    compile 'com.android.support.test.espresso:espresso-idling-resource:3.0.1'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    // TODO [App Dependencies] - Java library, android library, GCE backend module and client api
+    compile project(":jokerlib")
+    compile project(":jokerandroidlib")
+    compile project(path: ':jokebackend', configuration: 'android-endpoints')
+    compile 'com.google.api-client:google-api-client-android:1.23.0'
+
+    // TODO [App Dependencies] - Compile play services ad dependency to the free flavor only
+    freeCompile 'com.google.android.gms:play-services-ads:11.0.4'
+}

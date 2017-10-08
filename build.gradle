@@ -1,0 +1,60 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
+    }
+}
+
+/*
+ * TODO [Gradle Test Task] Start up the GCE server, run tests and then shut it down
+ * To tie it all together, create a Gradle task that:
+ * Launches the GCE local development server (in Daemon mode, so it doesn't block further execution)
+ * Runs all tests
+ * Shuts the server down again
+ */
+task testTask {
+    description "Test task to startup the GCE server, run connected test(s), and then shut down" +
+            "server"
+
+    // Dependencies on the following sub-tasks
+    dependsOn(['startGCEServer','runAndroidConnectedTests','shutDownGCEServer'])
+
+    doLast {
+        println "Test Task (Free) Completed"
+    }
+}
+
+task startGCEServer {
+    dependsOn ':jokebackend:appengineRun'
+    evaluationDependsOn(":jokebackend")
+    project(':jokebackend').appengine.daemon = true
+}
+
+task runAndroidConnectedTests {
+    dependsOn ':app:connectedAndroidTest'
+    mustRunAfter "startGCEServer"
+}
+
+task shutDownGCEServer {
+    dependsOn ":jokebackend:appengineStop"
+    mustRunAfter "runAndroidConnectedTests"
+}
