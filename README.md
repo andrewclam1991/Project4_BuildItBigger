@@ -1,5 +1,5 @@
 # Test Description
-This project contains connected tests to verify that the AsyncTask is indeed loading jokes. To run the test for all flavors, connect an eumulator and then run the Gradle Task "testTask". For example, run with the gradle wrapper in the project directory:
+This project contains connected tests to verify that the AsyncTask is indeed loading jokes. To run the test for all flavors, connect an emulator and then run the Gradle Task "testTask". For example, run with the gradle wrapper in the project directory:
 ```
 gradlew testTask
 ```
