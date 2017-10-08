@@ -36,7 +36,7 @@ task testTask {
             "server"
 
     // Dependencies on the following sub-tasks
-    dependsOn(['startGCEServer','runAndroidConnectedTests','shutDownGCEServer'])
+    dependsOn(['startGCEServer','runAndroidConnectedTests'])
 
     doLast {
         println "Test Task (Free) Completed"
@@ -58,3 +58,5 @@ task shutDownGCEServer {
     dependsOn ":jokebackend:appengineStop"
     mustRunAfter "runAndroidConnectedTests"
 }
+
+testTask.finalizedBy(shutDownGCEServer)
